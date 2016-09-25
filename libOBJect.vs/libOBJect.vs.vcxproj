@@ -18,6 +18,10 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\ELF.hpp" />
+    <ClInclude Include="..\include\MachO.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5BD900ED-9DB7-4F2D-9A1F-AA339A1BEB6E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

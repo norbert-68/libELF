@@ -2,3 +2,4 @@
 /Release/**
 /libOBJect.vs/.vs
 /libOBJect.vs/*.VC.*
+/Debug/Win32/obj

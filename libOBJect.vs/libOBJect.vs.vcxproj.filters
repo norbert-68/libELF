@@ -6,4 +6,12 @@
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\ELF.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\MachO.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
