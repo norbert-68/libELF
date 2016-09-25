@@ -1,5 +1,6 @@
 ﻿/Debug/**
-/Debug/Win32/obj
+/Debug/*/**
 /Release/**
+/Release/*/**
 /libOBJect.vs/.vs
 /libOBJect.vs/*.VC.*
