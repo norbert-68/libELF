@@ -1,2 +1,2 @@
-# libELF
-A rudimentary ELF parser
+# libOBJect
+A rudimentary ELF and Mach-O parser
