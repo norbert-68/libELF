@@ -627,7 +627,7 @@ inline void MachOLoadCommand::deserialize(std::istream & stream)
     assert(machoFile);
     buffer.resize(sizeof(cmd) + sizeof(cmdsize));
     stream.read(reinterpret_cast<char*>(buffer.data()), buffer.size());
-    if (!stream || stream.gcount() != buffer.size())
+    if (!stream || stream.gcount() < 0 || static_cast<std::size_t>(stream.gcount()) != buffer.size())
         throw std::runtime_error("mach-o: load command");
 
     cmd = readInteger<uint32_t>(buffer.data(), machoFile->header.isLittleEndian());
@@ -640,7 +640,7 @@ inline void MachOLoadCommand::deserialize(std::istream & stream)
 
     stream.read(reinterpret_cast<char*>(buffer.data()) + sizeof(cmd) + sizeof(cmdsize),
                 cmdsize - sizeof(cmd) - sizeof(cmdsize));
-    if (!stream || stream.gcount() != cmdsize - sizeof(cmd) - sizeof(cmdsize))
+    if (!stream || stream.gcount() < 0 || static_cast<std::size_t>(stream.gcount()) != cmdsize - sizeof(cmd) - sizeof(cmdsize))
         throw std::runtime_error("mach-o: load command: wrong cmdsize");
 }
 
@@ -768,7 +768,7 @@ inline void MachOSection::deserialize(std::istream & stream, const uint8_t * & s
     if (filesize)
     {
         stream.read(reinterpret_cast<char*>(data()), filesize);
-        if (!stream || stream.gcount() != filesize)
+        if (!stream || stream.gcount() < 0 || static_cast<std::size_t>(stream.gcount()) != filesize)
             throw std::runtime_error("mach-o: load command: section: size");
     }
 

@@ -4,3 +4,4 @@
 /Release/*/**
 /libOBJect.vs/.vs
 /libOBJect.vs/*.VC.*
+/Debug/
