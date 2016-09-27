@@ -1,7 +1,10 @@
-﻿/Debug/**
+﻿/Debug/
+/Debug/**
 /Debug/*/**
 /Release/**
 /Release/*/**
 /libOBJect.vs/.vs
 /libOBJect.vs/*.VC.*
-/Debug/
+.DS_Store
+/DerivedData/
+libOBJect.xcodeproj/xcuserdata/
