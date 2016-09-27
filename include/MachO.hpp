@@ -38,7 +38,7 @@
 namespace macho {
 
 template<typename Int>
-Int readInteger(const uint8_t * src, bool littleEndian)
+Int readInteger(const std::uint8_t * src, bool littleEndian)
 {
     Int dest = 0;
     for (std::size_t i = 0; i < sizeof(Int); ++i)
@@ -49,7 +49,7 @@ Int readInteger(const uint8_t * src, bool littleEndian)
 template<typename Int>
 Int readInteger(std::istream & stream, bool isLittleEndian, const char * name)
 {
-    uint8_t buffer[sizeof(Int)];
+    std::uint8_t buffer[sizeof(Int)];
     stream.read(reinterpret_cast<char*>(buffer), sizeof(Int));
     if (!stream || stream.gcount() != sizeof(Int))
         throw std::runtime_error(name);
@@ -57,7 +57,7 @@ Int readInteger(std::istream & stream, bool isLittleEndian, const char * name)
 }
 
 template<typename Int>
-Int readInteger(const uint8_t * & src, std::size_t & length, bool isLittleEndian, const char * name)
+Int readInteger(const std::uint8_t * & src, std::size_t & length, bool isLittleEndian, const char * name)
 {
     if (length < sizeof(Int))
         throw std::runtime_error(name);
@@ -67,13 +67,13 @@ Int readInteger(const uint8_t * & src, std::size_t & length, bool isLittleEndian
     return result;
 }
 
-typedef uint32_t MachOCPUType;
-typedef uint32_t MachOCPUSubType;
+typedef std::uint32_t MachOCPUType;
+typedef std::uint32_t MachOCPUSubType;
 
-const uint32_t MH_MAGIC	   = 0xfeedface;
-const uint32_t MH_CIGAM	   = 0xcefaedfe;
-const uint32_t MH_MAGIC_64 = 0xfeedfacf;
-const uint32_t MH_CIGAM_64 = 0xcffaedfe;
+const std::uint32_t MH_MAGIC	   = 0xfeedface;
+const std::uint32_t MH_CIGAM	   = 0xcefaedfe;
+const std::uint32_t MH_MAGIC_64 = 0xfeedfacf;
+const std::uint32_t MH_CIGAM_64 = 0xcffaedfe;
 
 const MachOCPUType CPU_ARCH_MASK   = 0xff000000;
 const MachOCPUType CPU_ARCH_ABI64  = 0x01000000;
@@ -86,14 +86,14 @@ const MachOCPUSubType CPU_SUBTYPE_MASK    = 0xff000000;
 const MachOCPUSubType CPU_SUBTYPE_LIB64	  = 0x80000000;
 const MachOCPUSubType CPU_SUBTYPE_X86_ALL = 0x00000003;
 
-const uint32_t MH_OBJECT     = 0x1;
-const uint32_t MH_EXECUTE    = 0x2;
-const uint32_t MH_CORE       = 0x4;
-const uint32_t MH_DYLIB      = 0x6;
-const uint32_t MH_BUNDLE     = 0x8;
-const uint32_t MH_DYLIB_STUB = 0x9;
-const uint32_t MH_DSYM       = 0xa;
-const uint32_t MH_TWOLEVEL   = 0x80;
+const std::uint32_t MH_OBJECT     = 0x1;
+const std::uint32_t MH_EXECUTE    = 0x2;
+const std::uint32_t MH_CORE       = 0x4;
+const std::uint32_t MH_DYLIB      = 0x6;
+const std::uint32_t MH_BUNDLE     = 0x8;
+const std::uint32_t MH_DYLIB_STUB = 0x9;
+const std::uint32_t MH_DSYM       = 0xa;
+const std::uint32_t MH_TWOLEVEL   = 0x80;
 
 /**
  * @brief A Mach-O file contains code and data for one architecture.
@@ -101,14 +101,14 @@ const uint32_t MH_TWOLEVEL   = 0x80;
  */
 struct MachOHeader
 {
-    uint32_t magic;
+    std::uint32_t magic;
     MachOCPUType cputype;
     MachOCPUSubType cpusubtype;
-    uint32_t filetype;
-    uint32_t ncmds;
-    uint32_t sizeofcmds;
-    uint32_t flags;
-    uint32_t reserved;
+    std::uint32_t filetype;
+    std::uint32_t ncmds;
+    std::uint32_t sizeofcmds;
+    std::uint32_t flags;
+    std::uint32_t reserved;
 
     MachOHeader() :
         magic(MH_MAGIC_64),
@@ -133,26 +133,26 @@ struct MachOHeader
     void deserialize(std::istream & stream);
 };
 
-const uint32_t LC_REQ_DYLD           = 0x80000000;
-const uint32_t LC_SEGMENT            = 0x1;
-const uint32_t LC_SYMTAB             = 0x2;
-const uint32_t LC_UNIXTHREAD         = 0x5;
-const uint32_t LC_DYSYMTAB           = 0xB;
-const uint32_t LC_LOAD_DYLIB         = 0xC;
-const uint32_t LC_ID_DYLIB           = 0xD;
-const uint32_t LC_LOAD_DYLINKER      = 0xE;
-const uint32_t LC_LOAD_WEAK_DYLIB    = 0x18|LC_REQ_DYLD;
-const uint32_t LC_SEGMENT_64         = 0x19;
-const uint32_t LC_UUID               = 0x1B;
-const uint32_t LC_CODE_SIGNATURE     = 0x1D;
-const uint32_t LC_REEXPORT_DYLIB     = 0x1F|LC_REQ_DYLD;
-const uint32_t LC_DYLD_INFO          = 0x22;
-const uint32_t LC_DYLD_INFO_ONLY     = LC_REQ_DYLD|LC_DYLD_INFO;
-const uint32_t LC_VERSION_MIN_MACOSX = 0x24;
-const uint32_t LC_FUNCTION_STARTS    = 0x26;
-const uint32_t LC_MAIN               = LC_REQ_DYLD|0x28;
-const uint32_t LC_DATA_IN_CODE       = 0x29;
-const uint32_t LC_SOURCE_VERSION     = 0x2A;
+const std::uint32_t LC_REQ_DYLD           = 0x80000000;
+const std::uint32_t LC_SEGMENT            = 0x1;
+const std::uint32_t LC_SYMTAB             = 0x2;
+const std::uint32_t LC_UNIXTHREAD         = 0x5;
+const std::uint32_t LC_DYSYMTAB           = 0xB;
+const std::uint32_t LC_LOAD_DYLIB         = 0xC;
+const std::uint32_t LC_ID_DYLIB           = 0xD;
+const std::uint32_t LC_LOAD_DYLINKER      = 0xE;
+const std::uint32_t LC_LOAD_WEAK_DYLIB    = 0x18|LC_REQ_DYLD;
+const std::uint32_t LC_SEGMENT_64         = 0x19;
+const std::uint32_t LC_UUID               = 0x1B;
+const std::uint32_t LC_CODE_SIGNATURE     = 0x1D;
+const std::uint32_t LC_REEXPORT_DYLIB     = 0x1F|LC_REQ_DYLD;
+const std::uint32_t LC_DYLD_INFO          = 0x22;
+const std::uint32_t LC_DYLD_INFO_ONLY     = LC_REQ_DYLD|LC_DYLD_INFO;
+const std::uint32_t LC_VERSION_MIN_MACOSX = 0x24;
+const std::uint32_t LC_FUNCTION_STARTS    = 0x26;
+const std::uint32_t LC_MAIN               = LC_REQ_DYLD|0x28;
+const std::uint32_t LC_DATA_IN_CODE       = 0x29;
+const std::uint32_t LC_SOURCE_VERSION     = 0x2A;
 
 // Forward Declaration
 struct MachOFile;
@@ -163,9 +163,9 @@ struct MachOFile;
 struct MachOLoadCommand
 {
     MachOFile * machoFile;
-    uint32_t cmd;
-    uint32_t cmdsize;
-    std::vector<uint8_t> buffer;
+    std::uint32_t cmd;
+    std::uint32_t cmdsize;
+    std::vector<std::uint8_t> buffer;
 
     MachOLoadCommand(MachOFile * machoFile = 0) :
         machoFile(machoFile),
@@ -181,7 +181,7 @@ struct MachOLoadCommand
 struct MachOUUID
 {
     MachOFile * machoFile;
-    uint8_t uuid[16];
+    std::uint8_t uuid[16];
 
     MachOUUID(MachOFile * machoFile) :
         machoFile(machoFile)
@@ -207,64 +207,64 @@ struct MachOStringTable : public std::vector<char>
 
 // MachOSymbol n_type
 
-const uint8_t N_GSYM    = 0x20;
-const uint8_t N_FNAME   = 0x22;
-const uint8_t N_FUN     = 0x24;
-const uint8_t N_STSYM   = 0x26;
-const uint8_t N_LCSYM   = 0x28;
-const uint8_t N_BNSYM   = 0x2E;
-const uint8_t N_AST     = 0x32;
-const uint8_t N_OPT     = 0x3C;
-const uint8_t N_RSYM    = 0x40;
-const uint8_t N_SLINE   = 0x44;
-const uint8_t N_ENSYM   = 0x4E;
-const uint8_t N_SSYM    = 0x60;
-const uint8_t N_SO      = 0x64;
-const uint8_t N_OSO     = 0x66;
-const uint8_t N_LSYM    = 0x80;
-const uint8_t N_BINCL   = 0x82;
-const uint8_t N_SOL     = 0x84;
-const uint8_t N_PARAMS  = 0x86;
-const uint8_t N_VERSION = 0x88;
-const uint8_t N_OLEVEL  = 0x8A;
-const uint8_t N_PSYM    = 0xA0;
-const uint8_t N_EINCL   = 0xA2;
-const uint8_t N_ENTRY   = 0xA4;
-const uint8_t N_LBRAC   = 0xC0;
-const uint8_t N_EXCL    = 0xC2;
-const uint8_t N_RBRAC   = 0xE0;
-const uint8_t N_BCOMM   = 0xE2;
-const uint8_t N_ECOMM   = 0xE4;
-const uint8_t N_ECOML   = 0xE8;
-const uint8_t N_LENG    = 0xFE;
+const std::uint8_t N_GSYM    = 0x20;
+const std::uint8_t N_FNAME   = 0x22;
+const std::uint8_t N_FUN     = 0x24;
+const std::uint8_t N_STSYM   = 0x26;
+const std::uint8_t N_LCSYM   = 0x28;
+const std::uint8_t N_BNSYM   = 0x2E;
+const std::uint8_t N_AST     = 0x32;
+const std::uint8_t N_OPT     = 0x3C;
+const std::uint8_t N_RSYM    = 0x40;
+const std::uint8_t N_SLINE   = 0x44;
+const std::uint8_t N_ENSYM   = 0x4E;
+const std::uint8_t N_SSYM    = 0x60;
+const std::uint8_t N_SO      = 0x64;
+const std::uint8_t N_OSO     = 0x66;
+const std::uint8_t N_LSYM    = 0x80;
+const std::uint8_t N_BINCL   = 0x82;
+const std::uint8_t N_SOL     = 0x84;
+const std::uint8_t N_PARAMS  = 0x86;
+const std::uint8_t N_VERSION = 0x88;
+const std::uint8_t N_OLEVEL  = 0x8A;
+const std::uint8_t N_PSYM    = 0xA0;
+const std::uint8_t N_EINCL   = 0xA2;
+const std::uint8_t N_ENTRY   = 0xA4;
+const std::uint8_t N_LBRAC   = 0xC0;
+const std::uint8_t N_EXCL    = 0xC2;
+const std::uint8_t N_RBRAC   = 0xE0;
+const std::uint8_t N_BCOMM   = 0xE2;
+const std::uint8_t N_ECOMM   = 0xE4;
+const std::uint8_t N_ECOML   = 0xE8;
+const std::uint8_t N_LENG    = 0xFE;
 
-const uint8_t N_TYPE_MASK = 0x0E;
-const uint8_t N_TYPE_UNDF = 0x00;
-const uint8_t N_TYPE_EXT  = 0x01;
-const uint8_t N_TYPE_ABS  = 0x02;
-const uint8_t N_TYPE_INDR = 0x0A;
-const uint8_t N_TYPE_PBUD = 0x0C;
-const uint8_t N_TYPE_SECT = 0x0E;
-const uint8_t N_TYPE_PEXT = 0x10;
-const uint8_t N_TYPE_STAB = 0xE0;
+const std::uint8_t N_TYPE_MASK = 0x0E;
+const std::uint8_t N_TYPE_UNDF = 0x00;
+const std::uint8_t N_TYPE_EXT  = 0x01;
+const std::uint8_t N_TYPE_ABS  = 0x02;
+const std::uint8_t N_TYPE_INDR = 0x0A;
+const std::uint8_t N_TYPE_PBUD = 0x0C;
+const std::uint8_t N_TYPE_SECT = 0x0E;
+const std::uint8_t N_TYPE_PEXT = 0x10;
+const std::uint8_t N_TYPE_STAB = 0xE0;
 
 // MachOSymbol n_desc
 
-const uint16_t REFERENCE_TYPE_MASK                       = 0x0F;
-const uint16_t REFERENCE_FLAG_UNDEFINED_NON_LAZY         = 0x00;
-const uint16_t REFERENCE_FLAG_UNDEFINED_LAZY             = 0x01;
-const uint16_t REFERENCE_FLAG_DEFINED                    = 0x02;
-const uint16_t REFERENCE_FLAG_PRIVATE_DEFINED            = 0x03;
-const uint16_t REFERENCE_FLAG_PRIVATE_UNDEFINED_NON_LAZY = 0x04;
-const uint16_t REFERENCE_FLAG_PRIVATE_UNDEFINED_LAZY     = 0x05;
-const uint16_t REFERENCED_DYNAMICALLY                    = 0x10;
+const std::uint16_t REFERENCE_TYPE_MASK                       = 0x0F;
+const std::uint16_t REFERENCE_FLAG_UNDEFINED_NON_LAZY         = 0x00;
+const std::uint16_t REFERENCE_FLAG_UNDEFINED_LAZY             = 0x01;
+const std::uint16_t REFERENCE_FLAG_DEFINED                    = 0x02;
+const std::uint16_t REFERENCE_FLAG_PRIVATE_DEFINED            = 0x03;
+const std::uint16_t REFERENCE_FLAG_PRIVATE_UNDEFINED_NON_LAZY = 0x04;
+const std::uint16_t REFERENCE_FLAG_PRIVATE_UNDEFINED_LAZY     = 0x05;
+const std::uint16_t REFERENCED_DYNAMICALLY                    = 0x10;
 
-const uint16_t N_DESC_DISCARDED     = 0x20;
-const uint16_t N_NO_DEAD_STRIP      = 0x20;
-const uint16_t N_WEAK_REF           = 0x40;
-const uint16_t N_WEAK_DEF           = 0x80;
-const uint16_t SELF_LIBRARY_ORDINAL = 0x00;
-const uint16_t EXECUTABLE_ORDINAL   = 0xFF;
+const std::uint16_t N_DESC_DISCARDED     = 0x20;
+const std::uint16_t N_NO_DEAD_STRIP      = 0x20;
+const std::uint16_t N_WEAK_REF           = 0x40;
+const std::uint16_t N_WEAK_DEF           = 0x80;
+const std::uint16_t SELF_LIBRARY_ORDINAL = 0x00;
+const std::uint16_t EXECUTABLE_ORDINAL   = 0xFF;
 
 // Forward Declaration
 struct MachOSymtab;
@@ -276,11 +276,11 @@ struct MachOSymbol
 {
     MachOSymtab * symtab;
     std::string name;
-    uint32_t n_strx;
-    uint8_t n_type;
-    uint8_t n_sect;
-    uint16_t n_desc;
-    uint64_t n_value;
+    std::uint32_t n_strx;
+    std::uint8_t n_type;
+    std::uint8_t n_sect;
+    std::uint16_t n_desc;
+    std::uint64_t n_value;
 
     MachOSymbol(MachOSymtab * symtab = 0) :
         symtab(symtab),
@@ -299,10 +299,10 @@ struct MachOSymbol
 struct MachOSymtab : public std::vector<MachOSymbol>
 {
     MachOFile * machoFile;
-    uint32_t symoff;
-    uint32_t nsyms;
-    uint32_t stroff;
-    uint32_t strsize;
+    std::uint32_t symoff;
+    std::uint32_t nsyms;
+    std::uint32_t stroff;
+    std::uint32_t strsize;
     MachOStringTable stringTable;
 
     MachOSymtab(MachOFile * machoFile = 0) :
@@ -342,49 +342,49 @@ struct MachOSymtab : public std::vector<MachOSymbol>
 
 
 /** @brief section flags type mask. */
-const uint32_t SECTION_TYPE = 0x000000ff;
+const std::uint32_t SECTION_TYPE = 0x000000ff;
 /** @brief section flags attributes mask. */
-const uint32_t SECTION_ATTRIBUTES = 0xffffff00;
+const std::uint32_t SECTION_ATTRIBUTES = 0xffffff00;
 
 // section types
 
-const uint32_t S_REGULAR                             = 0x00;
-const uint32_t S_ZEROFILL                            = 0x01;
-const uint32_t S_CSTRING_LITERALS                    = 0x02;
-const uint32_t S_4BYTE_LITERALS                      = 0x03;
-const uint32_t S_8BYTE_LITERALS	                     = 0x04;
-const uint32_t S_LITERAL_POINTERS                    = 0x05;
-const uint32_t S_NON_LAZY_SYMBOL_POINTERS            = 0x06;
-const uint32_t S_LAZY_SYMBOL_POINTERS                = 0x07;
-const uint32_t S_SYMBOL_STUBS                        = 0x08;
-const uint32_t S_MOD_INIT_FUNC_POINTERS              = 0x09;
-const uint32_t S_MOD_TERM_FUNC_POINTERS              = 0x0A;
-const uint32_t S_COALESCED                           = 0x0B;
-const uint32_t S_GB_ZEROFILL                         = 0x0C;
-const uint32_t S_INTERPOSING                         = 0x0D;
-const uint32_t S_16BYTE_LITERALS                     = 0x0E;
-const uint32_t S_DTRACE_DOF                          = 0x0F;
-const uint32_t S_LAZY_DYLIB_SYMBOL_POINTERS	         = 0x10;
-const uint32_t S_THREAD_LOCAL_REGULAR                = 0x11;
-const uint32_t S_THREAD_LOCAL_ZEROFILL               = 0x12;
-const uint32_t S_THREAD_LOCAL_VARIABLES              = 0x13;
-const uint32_t S_THREAD_LOCAL_VARIABLE_POINTERS      = 0x14;
-const uint32_t S_THREAD_LOCAL_INIT_FUNCTION_POINTERS = 0x15;
+const std::uint32_t S_REGULAR                             = 0x00;
+const std::uint32_t S_ZEROFILL                            = 0x01;
+const std::uint32_t S_CSTRING_LITERALS                    = 0x02;
+const std::uint32_t S_4BYTE_LITERALS                      = 0x03;
+const std::uint32_t S_8BYTE_LITERALS	                     = 0x04;
+const std::uint32_t S_LITERAL_POINTERS                    = 0x05;
+const std::uint32_t S_NON_LAZY_SYMBOL_POINTERS            = 0x06;
+const std::uint32_t S_LAZY_SYMBOL_POINTERS                = 0x07;
+const std::uint32_t S_SYMBOL_STUBS                        = 0x08;
+const std::uint32_t S_MOD_INIT_FUNC_POINTERS              = 0x09;
+const std::uint32_t S_MOD_TERM_FUNC_POINTERS              = 0x0A;
+const std::uint32_t S_COALESCED                           = 0x0B;
+const std::uint32_t S_GB_ZEROFILL                         = 0x0C;
+const std::uint32_t S_INTERPOSING                         = 0x0D;
+const std::uint32_t S_16BYTE_LITERALS                     = 0x0E;
+const std::uint32_t S_DTRACE_DOF                          = 0x0F;
+const std::uint32_t S_LAZY_DYLIB_SYMBOL_POINTERS	         = 0x10;
+const std::uint32_t S_THREAD_LOCAL_REGULAR                = 0x11;
+const std::uint32_t S_THREAD_LOCAL_ZEROFILL               = 0x12;
+const std::uint32_t S_THREAD_LOCAL_VARIABLES              = 0x13;
+const std::uint32_t S_THREAD_LOCAL_VARIABLE_POINTERS      = 0x14;
+const std::uint32_t S_THREAD_LOCAL_INIT_FUNCTION_POINTERS = 0x15;
 
 // section attributes
 
-const uint32_t SECTION_ATTRIBUTES_USR     = 0xff000000;
-const uint32_t S_ATTR_PURE_INSTRUCTIONS   = 0x80000000;
-const uint32_t S_ATTR_NO_TOC              = 0x40000000;
-const uint32_t S_ATTR_STRIP_STATIC_SYMS   = 0x20000000;
-const uint32_t S_ATTR_NO_DEAD_STRIP       = 0x10000000;
-const uint32_t S_ATTR_LIVE_SUPPORT        = 0x08000000;
-const uint32_t S_ATTR_SELF_MODIFYING_CODE = 0x04000000;
-const uint32_t S_ATTR_DEBUG               = 0x02000000;
-const uint32_t SECTION_ATTRIBUTES_SYS     = 0x00ffff00;
-const uint32_t S_ATTR_SOME_INSTRUCTIONS   = 0x00000400;
-const uint32_t S_ATTR_EXT_RELOC           = 0x00000200;
-const uint32_t S_ATTR_LOC_RELOC           = 0x00000100;
+const std::uint32_t SECTION_ATTRIBUTES_USR     = 0xff000000;
+const std::uint32_t S_ATTR_PURE_INSTRUCTIONS   = 0x80000000;
+const std::uint32_t S_ATTR_NO_TOC              = 0x40000000;
+const std::uint32_t S_ATTR_STRIP_STATIC_SYMS   = 0x20000000;
+const std::uint32_t S_ATTR_NO_DEAD_STRIP       = 0x10000000;
+const std::uint32_t S_ATTR_LIVE_SUPPORT        = 0x08000000;
+const std::uint32_t S_ATTR_SELF_MODIFYING_CODE = 0x04000000;
+const std::uint32_t S_ATTR_DEBUG               = 0x02000000;
+const std::uint32_t SECTION_ATTRIBUTES_SYS     = 0x00ffff00;
+const std::uint32_t S_ATTR_SOME_INSTRUCTIONS   = 0x00000400;
+const std::uint32_t S_ATTR_EXT_RELOC           = 0x00000200;
+const std::uint32_t S_ATTR_LOC_RELOC           = 0x00000100;
 
 // Forward Declaration
 struct MachOSegment;
@@ -392,21 +392,21 @@ struct MachOSegment;
 /**
  * @brief A Mach-O section or section_64 structure.
  */
-struct MachOSection : public std::vector<uint8_t>
+struct MachOSection : public std::vector<std::uint8_t>
 {
     MachOSegment * segment;
     std::string sectionName;
     std::string segmentName;
-    uint64_t addr;
-    uint64_t filesize;
-    uint32_t fileoff;
-    uint32_t align;
-    uint32_t reloff;
-    uint32_t nreloc;
-    uint32_t flags;
-    uint32_t reserved1;
-    uint32_t reserved2;
-    uint32_t reserved3;
+    std::uint64_t addr;
+    std::uint64_t filesize;
+    std::uint32_t fileoff;
+    std::uint32_t align;
+    std::uint32_t reloff;
+    std::uint32_t nreloc;
+    std::uint32_t flags;
+    std::uint32_t reserved1;
+    std::uint32_t reserved2;
+    std::uint32_t reserved3;
 
     MachOSection(MachOSegment * segment = 0) :
         segment(segment),
@@ -421,15 +421,15 @@ struct MachOSection : public std::vector<uint8_t>
         reserved2(0),
         reserved3(0) {}
 
-    void deserialize(std::istream & stream, const uint8_t * & src, std::size_t & length);
+    void deserialize(std::istream & stream, const std::uint8_t * & src, std::size_t & length);
 };
 
 // segment flags
 
-const uint32_t SG_HIGHVM = 0x1;
-const uint32_t SG_FVMLIB = 0x2;
-const uint32_t SG_NORELOC = 0x4;
-const uint32_t SG_PROTECTED_VERSION_1 = 0x8;
+const std::uint32_t SG_HIGHVM = 0x1;
+const std::uint32_t SG_FVMLIB = 0x2;
+const std::uint32_t SG_NORELOC = 0x4;
+const std::uint32_t SG_PROTECTED_VERSION_1 = 0x8;
 
 /**
  * @brief A LC_SEGMENT or LC_SEGMENT_64 load command structure
@@ -437,16 +437,16 @@ const uint32_t SG_PROTECTED_VERSION_1 = 0x8;
 struct MachOSegment : public std::vector<MachOSection>
 {
     MachOFile * machoFile;
-    uint32_t cmd;
+    std::uint32_t cmd;
     std::string segmentName;
-    uint64_t vmaddr;
-    uint64_t vmsize;
-    uint64_t fileoff;
-    uint64_t filesize;
-    uint32_t maxprot;
-    uint32_t initprot;
-    uint32_t nsects;
-    uint32_t flags;
+    std::uint64_t vmaddr;
+    std::uint64_t vmsize;
+    std::uint64_t fileoff;
+    std::uint64_t filesize;
+    std::uint32_t maxprot;
+    std::uint32_t initprot;
+    std::uint32_t nsects;
+    std::uint32_t flags;
 
     MachOSegment(MachOFile * machoFile = 0) :
         machoFile(machoFile),
@@ -505,7 +505,7 @@ struct MachOSegment : public std::vector<MachOSection>
 struct MachODylib
 {
     MachOFile * machoFile;
-    uint32_t cmd;
+    std::uint32_t cmd;
     std::string libraryName;
 
     MachODylib(MachOFile * machoFile = 0) :
@@ -609,17 +609,17 @@ namespace macho {
 
 inline void MachOHeader::deserialize(std::istream & stream)
 {
-    magic = readInteger<uint32_t>(stream, true, "mach-o: header: magic number");
+    magic = readInteger<std::uint32_t>(stream, true, "mach-o: header: magic number");
     if (magic != MH_MAGIC && magic != MH_CIGAM && magic != MH_MAGIC_64 && magic != MH_CIGAM_64)
         throw std::runtime_error("mach-o: header magic number");
 
     cputype = readInteger<MachOCPUType>(stream, isLittleEndian(), "mach-o: header: cpu type");
     cpusubtype = readInteger<MachOCPUSubType>(stream, isLittleEndian(), "mach-o: header: cpu subtype");
-    filetype = readInteger<uint32_t>(stream, isLittleEndian(), "mach-o: header: file type");
-    ncmds = readInteger<uint32_t>(stream, isLittleEndian(), "mach-o: header: number of cmds");
-    sizeofcmds = readInteger<uint32_t>(stream, isLittleEndian(), "mach-o: header: sizeof of cmds");
-    flags = readInteger<uint32_t>(stream, isLittleEndian(), "mach-o: header: flags");
-    reserved = readInteger<uint32_t>(stream, isLittleEndian(), "mach-o: header: reserved");
+    filetype = readInteger<std::uint32_t>(stream, isLittleEndian(), "mach-o: header: file type");
+    ncmds = readInteger<std::uint32_t>(stream, isLittleEndian(), "mach-o: header: number of cmds");
+    sizeofcmds = readInteger<std::uint32_t>(stream, isLittleEndian(), "mach-o: header: sizeof of cmds");
+    flags = readInteger<std::uint32_t>(stream, isLittleEndian(), "mach-o: header: flags");
+    reserved = readInteger<std::uint32_t>(stream, isLittleEndian(), "mach-o: header: reserved");
 }
 
 inline void MachOLoadCommand::deserialize(std::istream & stream)
@@ -630,8 +630,8 @@ inline void MachOLoadCommand::deserialize(std::istream & stream)
     if (!stream || stream.gcount() < 0 || static_cast<std::size_t>(stream.gcount()) != buffer.size())
         throw std::runtime_error("mach-o: load command");
 
-    cmd = readInteger<uint32_t>(buffer.data(), machoFile->header.isLittleEndian());
-    cmdsize = readInteger<uint32_t>(buffer.data() + sizeof(uint32_t), machoFile->header.isLittleEndian());
+    cmd = readInteger<std::uint32_t>(buffer.data(), machoFile->header.isLittleEndian());
+    cmdsize = readInteger<std::uint32_t>(buffer.data() + sizeof(std::uint32_t), machoFile->header.isLittleEndian());
 
     if (cmdsize < sizeof(cmd) + sizeof(cmdsize))
         throw std::runtime_error("mach-o: load command: wrong cmdsize");
@@ -658,17 +658,17 @@ inline void MachOSymbol::deserialize(std::istream & stream)
 
     bool littleEndian = symtab->machoFile->header.isLittleEndian();
 
-    n_strx = readInteger<uint32_t>(stream, littleEndian, "mach-o: load command: symtab_command: nlist: n_strx");
+    n_strx = readInteger<std::uint32_t>(stream, littleEndian, "mach-o: load command: symtab_command: nlist: n_strx");
     name = symtab->stringTable[n_strx];
 
-    n_type = readInteger<uint8_t>(stream, littleEndian, "mach-o: load command: symtab_command: nlist: n_type");
-    n_sect = readInteger<uint8_t>(stream, littleEndian, "mach-o: load command: symtab_command: nlist: n_sect");
-    n_desc = readInteger<uint16_t>(stream, littleEndian, "mach-o: load command: symtab_command: nlist: n_desc");
+    n_type = readInteger<std::uint8_t>(stream, littleEndian, "mach-o: load command: symtab_command: nlist: n_type");
+    n_sect = readInteger<std::uint8_t>(stream, littleEndian, "mach-o: load command: symtab_command: nlist: n_sect");
+    n_desc = readInteger<std::uint16_t>(stream, littleEndian, "mach-o: load command: symtab_command: nlist: n_desc");
 
     if (symtab->machoFile->header.is64Bit())
-        n_value = readInteger<uint64_t>(stream, littleEndian, "mach-o: load command: symtab_command: nlist: 64-bit n_value");
+        n_value = readInteger<std::uint64_t>(stream, littleEndian, "mach-o: load command: symtab_command: nlist: 64-bit n_value");
     else
-        n_value = readInteger<uint32_t>(stream, littleEndian, "mach-o: load command: symtab_command: nlist: 64-bit n_value");
+        n_value = readInteger<std::uint32_t>(stream, littleEndian, "mach-o: load command: symtab_command: nlist: 64-bit n_value");
 }
 
 inline void MachOSymtab::deserialize(std::istream & stream, const MachOLoadCommand & loadCommand)
@@ -676,12 +676,12 @@ inline void MachOSymtab::deserialize(std::istream & stream, const MachOLoadComma
     assert(machoFile);
 
     bool littleEndian = machoFile->header.isLittleEndian();
-    const uint8_t * src = loadCommand.buffer.data() + 8;
+    const std::uint8_t * src = loadCommand.buffer.data() + 8;
 
-    symoff = readInteger<uint32_t>(src, littleEndian);
-    nsyms = readInteger<uint32_t>(src + 4, littleEndian);
-    stroff = readInteger<uint32_t>(src + 8, littleEndian);
-    strsize = readInteger<uint32_t>(src + 12, littleEndian);
+    symoff = readInteger<std::uint32_t>(src, littleEndian);
+    nsyms = readInteger<std::uint32_t>(src + 4, littleEndian);
+    stroff = readInteger<std::uint32_t>(src + 8, littleEndian);
+    strsize = readInteger<std::uint32_t>(src + 12, littleEndian);
 
     std::istream::pos_type currentPos = stream.tellg();
 
@@ -713,7 +713,7 @@ inline void MachOSymtab::deserialize(std::istream & stream, const MachOLoadComma
     stream.seekg(currentPos);
 }
 
-inline void MachOSection::deserialize(std::istream & stream, const uint8_t * & src, std::size_t & length)
+inline void MachOSection::deserialize(std::istream & stream, const std::uint8_t * & src, std::size_t & length)
 {
     assert(segment);
     assert(segment->machoFile);
@@ -732,8 +732,8 @@ inline void MachOSection::deserialize(std::istream & stream, const uint8_t * & s
 
     if (segment->cmd == LC_SEGMENT)
     {
-        uint32_t addr = readInteger<uint32_t>(src, littleEndian);
-        uint32_t size = readInteger<uint32_t>(src + 4, littleEndian);
+        std::uint32_t addr = readInteger<std::uint32_t>(src, littleEndian);
+        std::uint32_t size = readInteger<std::uint32_t>(src + 4, littleEndian);
         this->addr = addr;
         this->filesize = size;
         src += 8;
@@ -741,19 +741,19 @@ inline void MachOSection::deserialize(std::istream & stream, const uint8_t * & s
     }
     else
     {
-        addr = readInteger<uint64_t>(src, littleEndian);
-        filesize = readInteger<uint64_t>(src + 8, littleEndian);
+        addr = readInteger<std::uint64_t>(src, littleEndian);
+        filesize = readInteger<std::uint64_t>(src + 8, littleEndian);
         src += 16;
         length -= 16;
     }
-    fileoff = readInteger<uint32_t>(src, littleEndian);
-    align = readInteger<uint32_t>(src + 4, littleEndian);
-    reloff = readInteger<uint32_t>(src + 8, littleEndian);
-    nreloc = readInteger<uint32_t>(src + 12, littleEndian);
-    flags = readInteger<uint32_t>(src + 16, littleEndian);
-    reserved1 = readInteger<uint32_t>(src + 20, littleEndian);
-    reserved2 = readInteger<uint32_t>(src + 24, littleEndian);
-    reserved3 = readInteger<uint32_t>(src + 28, littleEndian);
+    fileoff = readInteger<std::uint32_t>(src, littleEndian);
+    align = readInteger<std::uint32_t>(src + 4, littleEndian);
+    reloff = readInteger<std::uint32_t>(src + 8, littleEndian);
+    nreloc = readInteger<std::uint32_t>(src + 12, littleEndian);
+    flags = readInteger<std::uint32_t>(src + 16, littleEndian);
+    reserved1 = readInteger<std::uint32_t>(src + 20, littleEndian);
+    reserved2 = readInteger<std::uint32_t>(src + 24, littleEndian);
+    reserved3 = readInteger<std::uint32_t>(src + 28, littleEndian);
     src += 32;
     length -= 32;
 
@@ -786,7 +786,7 @@ inline void MachOSegment::deserialize(std::istream & stream, const MachOLoadComm
     else if (loadCommand.buffer.size() < 72)
         throw std::runtime_error("mach-o: load command: segment_command_64");
 
-    const uint8_t * src = loadCommand.buffer.data() + 8;
+    const std::uint8_t * src = loadCommand.buffer.data() + 8;
 
     segmentName.assign(reinterpret_cast<const char*>(src), strnlen(reinterpret_cast<const char*>(src), 16));
     src += 16;
@@ -796,10 +796,10 @@ inline void MachOSegment::deserialize(std::istream & stream, const MachOLoadComm
 
     if (cmd == LC_SEGMENT)
     {
-        uint32_t vmaddr = readInteger<uint32_t>(src, littleEndian);
-        uint32_t vmsize = readInteger<uint32_t>(src + 4, littleEndian);
-        uint32_t fileoff = readInteger<uint32_t>(src + 8, littleEndian);
-        uint32_t filesize = readInteger<uint32_t>(src + 12, littleEndian);
+        std::uint32_t vmaddr = readInteger<std::uint32_t>(src, littleEndian);
+        std::uint32_t vmsize = readInteger<std::uint32_t>(src + 4, littleEndian);
+        std::uint32_t fileoff = readInteger<std::uint32_t>(src + 8, littleEndian);
+        std::uint32_t filesize = readInteger<std::uint32_t>(src + 12, littleEndian);
         this->vmaddr = vmaddr;
         this->vmsize = vmsize;
         this->fileoff = fileoff;
@@ -809,17 +809,17 @@ inline void MachOSegment::deserialize(std::istream & stream, const MachOLoadComm
     }
     else
     {
-        vmaddr = readInteger<uint64_t>(src, littleEndian);
-        vmsize = readInteger<uint64_t>(src + 8, littleEndian);
-        fileoff = readInteger<uint64_t>(src + 16, littleEndian);
-        filesize = readInteger<uint64_t>(src + 24, littleEndian);
+        vmaddr = readInteger<std::uint64_t>(src, littleEndian);
+        vmsize = readInteger<std::uint64_t>(src + 8, littleEndian);
+        fileoff = readInteger<std::uint64_t>(src + 16, littleEndian);
+        filesize = readInteger<std::uint64_t>(src + 24, littleEndian);
         src += 32;
         length -= 32;
     }
-    maxprot = readInteger<uint32_t>(src , littleEndian);
-    initprot = readInteger<uint32_t>(src + 4, littleEndian);
-    nsects = readInteger<uint32_t>(src + 8, littleEndian);
-    flags = readInteger<uint32_t>(src + 12, littleEndian);
+    maxprot = readInteger<std::uint32_t>(src , littleEndian);
+    initprot = readInteger<std::uint32_t>(src + 4, littleEndian);
+    nsects = readInteger<std::uint32_t>(src + 8, littleEndian);
+    flags = readInteger<std::uint32_t>(src + 12, littleEndian);
     src += 16;
     length -= 16;
 
@@ -840,10 +840,10 @@ inline void MachODylib::deserialize(std::istream & stream, const MachOLoadComman
 
     cmd = loadCommand.cmd;
 
-    const uint8_t * src = loadCommand.buffer.data() + 8;
+    const std::uint8_t * src = loadCommand.buffer.data() + 8;
     bool littleEndian = machoFile->header.isLittleEndian();
 
-    uint32_t offset = readInteger<uint32_t>(src, littleEndian);
+    std::uint32_t offset = readInteger<std::uint32_t>(src, littleEndian);
     if (offset >= loadCommand.cmdsize)
         throw std::runtime_error("mach-o load command: dylib_command: offset");
     libraryName = reinterpret_cast<const char*>(loadCommand.buffer.data()) + offset;
@@ -1342,7 +1342,7 @@ inline std::ostream & operator<<(std::ostream & stream, const macho::MachOLoadCo
             stream << "LC_SOURCE_VERSION";
             break;
         default:
-            stream << "0x" << std::hex << std::setw(sizeof(uint32_t) * 2) << std::setfill('0') << right.cmd;
+            stream << "0x" << std::hex << std::setw(sizeof(std::uint32_t) * 2) << std::setfill('0') << right.cmd;
     }
     stream << " cmdsize=" << std::dec << right.cmdsize;
     return stream;
