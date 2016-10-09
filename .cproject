@@ -6,6 +6,7 @@
 				<externalSettings>
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/libOBJect"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="includePath" name="/libOBJect/include"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/libOBJect/Debug"/>
 						<entry flags="RESOLVED" kind="libraryFile" name="libOBJect" srcPrefixMapping="" srcRootPath=""/>
 					</externalSetting>
@@ -58,16 +59,6 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
-					<folderInfo id="cdt.managedbuild.config.gnu.lib.debug.520754554.1847060225" name="/" resourcePath="libOBJect.vs">
-						<toolChain id="cdt.managedbuild.toolchain.gnu.lib.debug.242940732" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.lib.debug" unusedChildren="">
-							<tool id="cdt.managedbuild.tool.gnu.archiver.lib.debug.703892415" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.lib.debug.1859707082"/>
-							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.lib.debug.972376960" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.lib.debug.1302655483"/>
-							<tool id="cdt.managedbuild.tool.gnu.c.compiler.lib.debug.551875564" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.lib.debug.573667477"/>
-							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.56459381" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base.347482399"/>
-							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.base.1209140500" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base.1548542193"/>
-							<tool id="cdt.managedbuild.tool.gnu.assembler.lib.debug.2047777716" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.lib.debug.993230006"/>
-						</toolChain>
-					</folderInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="test"/>
 					</sourceEntries>
@@ -80,6 +71,7 @@
 				<externalSettings>
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/libOBJect"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="includePath" name="/libOBJect/include"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/libOBJect/Release"/>
 						<entry flags="RESOLVED" kind="libraryFile" name="libOBJect" srcPrefixMapping="" srcRootPath=""/>
 					</externalSetting>
@@ -130,16 +122,6 @@
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1154594297" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
-						</toolChain>
-					</folderInfo>
-					<folderInfo id="cdt.managedbuild.config.gnu.lib.release.316057428.1428688497" name="/" resourcePath="libOBJect.vs">
-						<toolChain id="cdt.managedbuild.toolchain.gnu.lib.release.1126885302" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.lib.release" unusedChildren="">
-							<tool id="cdt.managedbuild.tool.gnu.archiver.lib.release.1611641249" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.lib.release.535491277"/>
-							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.lib.release.602149664" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.lib.release.503742565"/>
-							<tool id="cdt.managedbuild.tool.gnu.c.compiler.lib.release.916772634" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.lib.release.2031879244"/>
-							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.1035688040" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base.1518764708"/>
-							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.base.2068865608" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base.1938802349"/>
-							<tool id="cdt.managedbuild.tool.gnu.assembler.lib.release.271461795" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.lib.release.489058703"/>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>

@@ -526,7 +526,7 @@ inline void ELFHeader::deserialize(std::istream & stream)
         throw std::runtime_error("elf: header: version");
     elfOsABI = buffer[0x07];
 
-    std::size_t remainingHeaderSize = (elfClass == ELF_CLASS32 ? ELF_HEADER_SIZE_32IT : ELF_HEADER_SIZE_64BIT) - 8;
+    std::streamsize remainingHeaderSize = (elfClass == ELF_CLASS32 ? ELF_HEADER_SIZE_32IT : ELF_HEADER_SIZE_64BIT) - 8;
     stream.read(reinterpret_cast<char*>(buffer) + 8, remainingHeaderSize);
     if (!stream || stream.gcount() != remainingHeaderSize)
         throw std::runtime_error("elf: header: elf type");
