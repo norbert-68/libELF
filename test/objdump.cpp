@@ -27,16 +27,14 @@
 struct Options
 {
     typedef std::vector<std::string> Filenames;
-    typedef std::set<std::string> SegmentNames;
-    typedef std::set<std::string> SectionNames;
+    typedef std::set<std::string> Sections;
 
     bool printMachHeader;
     bool printLoadCommands;
     bool printSymbols;
     bool printFile;
     bool printUUID;
-    SegmentNames segmentNames;
-    SectionNames sectionNames;
+    Sections sections;
     Filenames filenames;
     
     Options() :
@@ -61,7 +59,6 @@ void usage(const char * programName)
               << " -s,--symbols            print the symbol table (similiar to nm -ap)"        << std::endl
               << " -f,--file               print file information (similiar to -hls)"          << std::endl
               << " -u,--uuid               print UUID and corresponding dSYM bundle locations" << std::endl
-              << "    --segment <segment>  print contents of segment"                          << std::endl
               << "    --section <section>  print contents of section"                          << std::endl;
 }
 
@@ -79,13 +76,12 @@ int getOptions(int argc, char * args[], Options & options)
         { "symbols"      , no_argument      , 0, 's' },
         { "file"         , no_argument      , 0, 'f' },
         { "uuid"         , no_argument      , 0, 'u' },
-        { "segment"      , required_argument, 0, 256 },
-        { "section"      , required_argument, 0, 257 },
+        { "section"      , required_argument, 0, 'S' },
         { 0              , 0                , 0, 0   }
     };
     
     int nextOption;
-    while ((nextOption = getopt_long(argc, args, "fhlsu", longOptions, 0)) != -1 && result == EXIT_SUCCESS)
+    while ((nextOption = getopt_long(argc, args, "fhlsuS:", longOptions, 0)) != -1 && result == EXIT_SUCCESS)
     {
         switch (nextOption)
         {
@@ -104,11 +100,8 @@ int getOptions(int argc, char * args[], Options & options)
             case 'u':
                 options.printUUID = true;
                 break;
-            case 256: // --segment
-                options.segmentNames.insert(optarg);
-                break;
-            case 257: // --section
-                options.sectionNames.insert(optarg);
+            case 'S':
+                options.sections.insert(optarg);
                 break;
             case '?':
             default:
@@ -158,25 +151,16 @@ int main(int argc, char * args[])
                 if (options.printFile)
                     std::cout << machoFile;
 
-                if (!options.segmentNames.empty() || ! options.sectionNames.empty())
+                if (!options.sections.empty())
                 {
-                //                    std::vector<const macho::MachOSegment*> segments;
-                //                    machoFile->getSegments(options.segmentNames, segments);
-                //                    if (!options.sectionNames.empty())
-                //                    {
-                //                        std::vector<const macho::MachOSection*> sections;
-                //                        for (std::vector<const macho::MachOSegment*>::const_iterator jtr = segments.begin(); jtr != segments.end(); ++jtr)
-                //                            (*jtr)->getSections(options.sectionNames, sections);
-                //                        for (std::vector<const macho::MachOSection*>::const_iterator jtr = sections.begin(); jtr != sections.end(); ++jtr)
-                //                            std::cout << (*jtr)->toString() << std::endl
-                //                                      << common::hexdump((*jtr)->getBytes(), (*jtr)->getSize()) << std::endl;
-                //                        
-                //                    }
-                //                    else
-                //                    {
-                //                        for (std::vector<const macho::MachOSegment*>::const_iterator jtr = segments.begin(); jtr != segments.end(); ++jtr)
-                //                            std::cout << (*jtr)->toString() << std::endl;
-                //                    }
+                    for (const std::string & section : options.sections)
+                    {
+                        std::deque<const macho::MachOSection*> sections;
+                        machoFile.findSections(section.c_str(), sections);
+                        for (const macho::MachOSection * psection : sections)
+                            std::cout << *psection << std::endl;
+
+                    }
                 }
             }
         }
